@@ -7,6 +7,7 @@ function solution(price) {
         price *= 0.95;
     }
     return Math.floor(price);
+    // return parseInt(price);
 }
 // function solution(price) {
 //     if (price >= 100000 && price < 300000) {
