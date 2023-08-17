@@ -6,5 +6,5 @@ function solution(price) {
     } else if(price >= 100000) {
         price *= 0.95;
     }
-    return parseInt(price);
+    return Math.floor(price);
 }
