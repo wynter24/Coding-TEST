@@ -3,4 +3,6 @@ function solution(n) {
     // parseInt(answer,3): 3진수 -> 10진수
     let answer = n.toString(3).split('').reverse().join('');
     return parseInt(answer,3)
+    
+    // return parseInt(n.toString(3).split('').reverse().join(''), 3);
 }
