@@ -7,8 +7,6 @@
 // }
 
 function solution(numbers) {
-  let sum = numbers.reduce((acc,cur) => {
-    return acc+cur;
-  })
-  return sum/numbers.length;
+  let answer = numbers.reduce((acc,cur) => {return acc+cur;})/numbers.length
+  return answer;
 }
