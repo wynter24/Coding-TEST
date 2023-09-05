@@ -1,14 +1,8 @@
 function solution(array, commands) {
   var answer = [];
-  let result = [];
-  for(let i=0; i<commands.length;i++) {
-    answer.push(array.slice(commands[i][0]-1,commands[i][1]));
-  }
-  for(let i=0; i<answer.length;i++) {
-    answer[i].sort((a, b) =>(a-b));
-  }
-  for(let i=0; i<answer.length;i++) {
-    result.push(answer[i][commands[i][2]-1]);
-  }
-  return result;
+  commands.map((v)=>{
+    let arr = array.slice(v[0]-1,v[1]).sort((a,b)=>a-b);
+    answer.push(arr[v[2]-1]);
+  })
+  return answer;
 }
