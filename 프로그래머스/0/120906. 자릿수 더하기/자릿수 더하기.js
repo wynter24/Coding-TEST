@@ -1,5 +1,3 @@
 function solution(n) {
-    var answer = 0;
-    String(n).split('').map(num => answer+=Number(num));
-    return answer;
+    return (n+'').split('').map(num => +num).reduce((a,c) => a+c);
 }
