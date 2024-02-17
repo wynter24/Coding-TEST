@@ -1,10 +1,22 @@
-let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('');
+let input = require('fs').readFileSync('/dev/stdin').toString().trim();
 
-let sum = 0;
-const dial = [['A','B','C'],['D','E','F'],['G','H','I'],['J','K','L'],['M','N','O'],['P','Q','R','S'],['T','U','V'],['W','X','Y','Z']];
+const num = {
+  ABC: 2,
+  DEF: 3,
+  GHI: 4,
+  JKL: 5,
+  MNO: 6,
+  PQRS: 7,
+  TUV: 8,
+  WXYZ: 9,
+};
 
-dial.forEach(el => {
-  input.forEach(s => el.includes(s) ? sum += dial.indexOf(el)+3 : 0)
+let result = 0;
+
+[...input].forEach(str => {
+  Object.entries(num).forEach(([key,value]) => {
+    if(key.includes(str)) result += value+1
+  });
 });
 
-console.log(sum);
+console.log(result);
