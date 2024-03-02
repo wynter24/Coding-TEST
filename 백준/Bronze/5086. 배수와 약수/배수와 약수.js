@@ -3,13 +3,11 @@ const input = require('fs').readFileSync('/dev/stdin').toString().trim().split('
 let answer;
 
 input.forEach(el => {
-  let[num1, num2] = el.split(' ').map(Number);
-  if(num2%num1 === 0) {
-    answer='factor'
-  } else if(num1%num2 === 0) {
-    answer='multiple'
+  let [num1, num2] = el.split(' ').map(Number);
+  if(num1<num2) {
+    num2%num1 === 0 ? answer='factor' : answer='neither'
   } else {
-    answer='neither'
+    num1%num2 === 0 ? answer='multiple' : answer='neither'
   }
   if(num1 === 0 || num2 === 0) return;
   console.log(answer);
