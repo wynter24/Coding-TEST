@@ -1,14 +1,13 @@
-let input = require('fs').readFileSync(0,{encoding:"utf-8"}).split("\n").map(Number);
+let input = Number(require('fs').readFileSync('/dev/stdin'));
 
-let N = input.shift();
-const answer = [];
+let devide = 2;
 
-for (let i = 2; i <= N; i++) {
-  while (N % i === 0) {
-    N /= i;
-    answer.push(i);
+while(input>1) {
+  if(input%devide === 0) {
+    input /= devide;
+    console.log(devide);
+    devide = 2;
+  } else {
+    devide++;
   }
-  if (N === 1) break;
 }
-
-answer.forEach((number) => console.log(number));
