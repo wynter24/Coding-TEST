@@ -9,6 +9,4 @@ members.sort((a,b) => {
   return a[0] - b[0]
 })
 
-for(let member of members) {
-  console.log(member.join(' '));
-}
+console.log(members.map(el => el.join(' ')).join('\n'));
