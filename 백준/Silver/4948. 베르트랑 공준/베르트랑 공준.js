@@ -10,12 +10,12 @@ function isPrime(num) {
 }
 
 input.forEach(el => {
-  let arr = [];
+  let sum = 0;
   if(el === 1) console.log(1)
   else {
     for (let i = el+1; i <= el*2; i++) {
-      if(isPrime(i)) arr.push(i)
+      if(isPrime(i)) sum++;
     }
-    console.log(arr.length);
+    console.log(sum);
   }
 })
