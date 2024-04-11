@@ -1,12 +1,7 @@
 function solution(d, budget) {
-    d.sort((a,b) => a-b);
-    let sum = 0;
-    let answer = 0;
-    
-    for(let i=0; i<d.length; i++){
-        sum += d[i];
-        if(sum > budget) break;
-        answer ++;
-    }
-    return answer;
+    return d.sort((a,b) => a - b).reduce((count,price) => {
+        return count + ((budget -= price) >= 0);
+    }, 0);
 }
+// 초기값은 0으로 설정
+// budget -= price >= 0 에서 ture라면 1로 변환되어 count에 +1이 된다.
