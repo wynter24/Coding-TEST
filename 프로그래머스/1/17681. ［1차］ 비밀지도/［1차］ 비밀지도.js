@@ -1,29 +1,10 @@
-function convertToBinary(arr, n) {
-    return arr.map(el => {
-        let binary = el.toString(2);
-        while (binary.length < n) {
-            binary = '0' + binary;
-        }
-        return binary.split('').map(num => parseInt(num));
-    });
-}
+// function solution(n, arr1, arr2) {
+//     return arr1.map((a,i) => (a|arr2[i]).toString(2)
+//                                         .padStart(n)
+//                                         .replace(/0/g,' ')
+//                                         .replace(/1/g, '#'))
+// }
 
-function solution(n, arr1, arr2) {
-    var answer = [];
-    
-    let map1 = convertToBinary(arr1, n);
-    let map2 = convertToBinary(arr2, n);
-    
-    for(let i=0; i<n; i++) {
-        let row = []
-        for(let j=0; j<n; j++) {
-            if(map1[i][j] === 1 || map2[i][j] === 1) {
-                row.push('#');
-            } else {
-                row.push(' ');
-            }
-        }
-        answer.push(row.join(''));
-    }
-    return answer;
-}
+// 중괄호 {}를 사용하지 않고 한 줄로 작성하면 : (a, i) => ...
+// 해당 표현식의 결과가 자동으로 반환된다.
+var solution=(n,a,b)=>a.map((a,i)=>(a|b[i]).toString(2).padStart(n,0).replace(/0/g,' ').replace(/1/g,'#'))
