@@ -1,14 +1,9 @@
 function solution(name, yearning, photo) {
-    var answer = [];
-    photo.forEach(el => {
-        let sum = 0;
-        el.forEach(person => {
-            if(name.includes(person)) {
-                let nameIdx = name.indexOf(person);
-                sum += yearning[nameIdx];
-            }
-        })
-        answer.push(sum);
+    var score = new Map;
+    
+    name.forEach((v,i) => {
+        score.set(v,yearning[i])
     })
-    return answer;
+    
+    return photo.map(names => names.reduce((a,c) => a + (score.get(c) || 0),0));
 }
