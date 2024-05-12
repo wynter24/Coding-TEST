@@ -1,22 +1,18 @@
 function solution(s) {
-    let stack = [];
-    let count = 0;
-    
-    for(let i = 0; i < s.length; i += 1){
-        stack.push(s[i]);
-        
-        const same = stack.filter((item) => item === stack[0]);
-        const notSame = stack.filter((item) => item !== stack[0]);
-        
-        if(same.length === notSame.length){
-            count += 1;
-            stack = [];
-        }
+  let result = 0;
+  let x_count = 0;
+  let notX_count = 0;
+
+  s.split('').reduce((a,c) => {
+    if(x_count === notX_count) {
+      result++;
+      x_count = 0;
+      notX_count = 0;
+      a = c;
     }
-    
-    if(stack.length !== 0){
-        count += 1;
-    }
-    
-    return count;
+    a === c ? x_count++ : notX_count++;
+    return a;
+  },'');
+
+  return result;
 }
