@@ -1,19 +1,12 @@
 function solution(N, stages) {
-  let data = [];
+  let result = [];
 
   for(let i = 1; i <= N; i++) {
-    let stageCount = 0;
-    let reachCount = 0;
-    for (const stage of stages) {
-      if(i === stage) stageCount++;
-      if(i <= stage) reachCount++;
-    }
-    let failureLate = stageCount/ reachCount;
-    data.push({stage: i, failureLate});
+    let reach = stages.filter(stage => i === stage).length;
+    let curr = stages.filter(stage => i <= stage).length;
+    result.push([i, reach/curr]);
   }
+  result.sort((a,b) => b[1] - a[1]);
 
-  data.sort((a,b) => b.failureLate - a.failureLate);
-  let result = data.map(el => el.stage);
-
-  return result;
+  return result.map(el => el[0]);
 }
