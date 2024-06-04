@@ -1,19 +1,15 @@
 function solution(players, callings) {
-  let hash = new Map();
+  const rank = {};
+  players.forEach((p,i) => rank[p] = i);
+  for (const winner of callings) {
+    let winnerI = rank[winner];
+    let loserI = winnerI - 1;
 
-  players.forEach((name, index) => {
-    hash.set(name, index);
-  });
+    rank[winner]--;
+    rank[players[loserI]]++;
 
-  callings.forEach(name => {
-    let currIdx = hash.get(name);
-    let front = players[currIdx - 1];
-
-    [players[currIdx], players[currIdx-1]] = [players[currIdx-1], players[currIdx]];
-
-    hash.set(name, hash.get(name)-1);
-    hash.set(front, hash.get(name)+1);
-  })
-  
+    players[winnerI] = players[loserI];
+    players[loserI] = winner;
+  }
   return players;
 }
