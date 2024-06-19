@@ -1,16 +1,17 @@
 function solution(elements) {
-  let sumArr = [];
+  let sumArr = new Set();
+  const sum = (arr) => arr.reduce((a,b) => a+b,0);
   for (let i = 0; i < elements.length; i++) {
-    for (let j = 1; j <= elements.length; j++) {
+    for (let j = 1; j < elements.length; j++) {
       if(i+j > elements.length) {
         let arr1 = elements.slice(i,elements.length);
         let arr2 = elements.slice(0,elements.length-j);
-        sumArr.push([...arr1,...arr2].reduce((a,b) => a+b));
+        sumArr.add(sum([...arr1,...arr2]));
       } else {
-        sumArr.push(elements.slice(i,i+j).reduce((a,b) => a+b));
+        sumArr.add(sum(elements.slice(i,i+j)));
       }
     }
   }
-  // sumArr.push(elements.reduce((a,b) => a+b));
-  return [...new Set(sumArr)].length;
+  sumArr.add(sum(elements));
+  return sumArr.size;
 }
