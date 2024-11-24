@@ -1,23 +1,17 @@
 let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
-const n = +input.shift();
+input.shift();
 const chart = input.map(el => el.split(' ').map(Number));
 
-// 이중 for문 사용
-function calculateRanks(n, people) {
-  let ranks = new Array(n).fill(1);
-
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (i !== j) {
-        if (people[i][0] < people[j][0] && people[i][1] < people[j][1]) {
-          ranks[i]++;
-        }
+function calculateRanks(people) {
+  return people.map((personA, idxA) => {
+    return people.reduce((rank, personB, idxB) => {
+      if (idxA !== idxB && personA[0] < personB[0] && personA[1] < personB[1]) {
+        return rank + 1;
       }
-    }
-  }
-
-  return ranks;
+      return rank;
+    }, 1)
+  })
 }
 
-let ranks = calculateRanks(n, chart);
+let ranks = calculateRanks(chart);
 console.log(ranks.join(' '));
