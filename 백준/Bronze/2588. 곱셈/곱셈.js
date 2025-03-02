@@ -1,12 +1,14 @@
-const input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let [A, B] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-const num1 = input[0];
-const num2 = input[1];
+let answer = [];
 let sum = 0;
+const len = B.length - 1;
 
-for (let i = 2; i > -1; i--) {
-  sum += +num1 * +num2[i] * Math.pow(10,2-i);
-  console.log( +num1 * +num2[i] );
+for (let i = len; i > -1; i--) {
+  let calc = A * +B[i];
+  answer.push(calc);
+  sum += calc * Math.pow(10, len - i);
 }
 
-console.log(sum);
+answer.push(sum);
+console.log(answer.join('\n'));
