@@ -1,14 +1,12 @@
-const input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let [n, nums] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-let arr = input[1].split(' ').map(Number);
-let count = 0;
-
-arr.forEach(num => {
-  let primeNumber = []
-  for (let i = 1; i <= num; i++) {
-    if(num%i === 0) primeNumber.push(i);    
+function isPrimeNum(num) {
+  num = Number(num);
+  if (num < 2) return false;
+  for (let i = 2; i <= Math.sqrt(num); i++) {
+    if (num % i === 0) return false;
   }
-  if(primeNumber.length === 2) count++;
-})
+  return true;
+}
 
-console.log(count);
+console.log(nums.split(' ').filter(num => isPrimeNum(num)).length);
