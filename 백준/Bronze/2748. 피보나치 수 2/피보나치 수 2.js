@@ -1,10 +1,15 @@
 let n = +require('fs').readFileSync('/dev/stdin').toString().trim();
 
-const dp = Array(n + 1).fill(BigInt(0));
-dp[1] = BigInt(1);
+// top-down
+const memo = Array(n+1).fill(undefined);
 
-for (let i = 2; i <= n; i++) {
-  dp[i] = dp[i - 1] + dp[i - 2];
+function fib(n) {
+  if(n === 0) return BigInt(0);
+  if(n === 1) return BigInt(1);
+  if(memo[n] !== undefined) return memo[n];
+
+  memo[n] = fib(n-1) + fib(n-2);
+  return memo[n];
 }
 
-console.log(dp[n].toString());
+console.log(fib(n).toString());
