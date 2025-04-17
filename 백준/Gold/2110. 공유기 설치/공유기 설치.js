@@ -1,34 +1,35 @@
 let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
-let [n,c] = input.shift().split(' ');
-let houses = input.map(Number).sort((a,b) => a-b);
+const [n, c] = input.shift().split(' ');
+let houses = input.map(Number).sort((a, b) => a - b);
 
-function getMaxDistance(n,c,houses) {
-  let min = 1; // 공유기 사이 최소 거리
-  let max = houses[n-1] - houses[0]; // 최대 거리
-  let answer = 0;
+let left = 1;
+let right = houses[n - 1] - houses[0];
+let answer = 0;
 
-  while(min <= max) {
-    let mid = Math.floor((min+max) / 2);
-    let count = 1; // 무조건 첫번째 집에 설치
-    let lastPositon = houses[0]; // 마지막으로 설치한 집
+const isPossible = (dis) => {
+  let count = 1;
+  let lastInstalled = houses[0];
 
-    // 첫번째 집은 이미 설치했으니 다음 집부터(i = 1)
-    for (let i = 1; i < n; i++) {
-      if(houses[i] - lastPositon >= mid) {
-        lastPositon = houses[i]; // 현재 집이 -> 마지막으로 설치한 곳이 됨
-        count++;
-      }
-    }
-
-    if(count >= c) {
-      answer = mid;
-      min = mid + 1;
-    } else {
-      max = mid - 1;
+  for (let i = 1; i < n; i++) {
+    if (houses[i] - lastInstalled >= dis) {
+      lastInstalled = houses[i];
+      count++;
     }
   }
 
-  return answer;
+  return count >= c ? true : false;
 }
 
-console.log(getMaxDistance(n,c,houses));
+while (left <= right) {
+  let mid = Math.floor((left + right) / 2);
+  const installed = isPossible(mid);
+
+  if (installed) { // 설치 가능하니까
+    answer = mid;
+    left = mid + 1; // 간격 더 넓히기
+  } else {
+    right = mid - 1;
+  }
+}
+
+console.log(answer)
