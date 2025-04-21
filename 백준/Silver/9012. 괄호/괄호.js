@@ -1,10 +1,29 @@
-let [n, ...arr] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n').map(el => el.trim());
+let [n, ...input] = require('fs')
+  .readFileSync('/dev/stdin')
+  .toString()
+  .trim()
+  .split('\n');
 
-for (let i = 0; i < n; i++) {
-  let count = 0;
-  for (const el of arr[i]) {
-    el === '(' ? count+=1 : count-=1;
-    if(count < 0) break; 
+let answer = [];
+const arr = input.map(el => el.trim());
+
+for (const el of arr) {
+  let stack = [];
+
+  if (el[0] === ')') {
+    answer.push('NO');
+    continue;
   }
-  console.log(count ? 'NO' : 'YES');
+
+  for (let i = 0; i < el.length; i++) {
+    if (stack.length > 0 && stack[stack.length - 1] === '(' && el[i] === ')') {
+      stack.pop();
+      continue;
+    }
+    stack.push(el[i]);
+  }
+
+  answer.push(stack.length ? 'NO' : 'YES');
 }
+
+console.log(answer.join('\n'));
