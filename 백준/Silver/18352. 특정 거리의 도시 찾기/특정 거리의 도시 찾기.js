@@ -6,31 +6,30 @@ let input = require('fs')
 
 const [N, M, K, X] = input.shift().split(' ').map(Number);
 const cities = Array.from({ length: N + 1 }, () => []);
-let visited = Array(N + 1).fill(false);
-
 input.forEach(el => {
   const [from, to] = el.trim().split(' ').map(Number);
   cities[from].push(to);
 });
 
-let result = [];
+let dist = Array(N + 1).fill(-1);
+dist[X] = 0;
 
-function bfs(start, curr) {
-  let index = 0;
-  let queue = [[start, curr]];
-  visited[start] = true;
+let queue = [X];
+let idx = 0;
 
-  while (index < queue.length) {
-    const [node, move] = queue[index++];
-    if (move === K) result.push(node);
-    for (const next of cities[node]) {
-      if (!visited[next]) {
-        visited[next] = true;
-        queue.push([next, move + 1]);
-      }
+while (idx < queue.length) {
+  let node = queue[idx++];
+  for (const next of cities[node]) {
+    if (dist[next] === -1) {
+      dist[next] = dist[node] + 1;
+      queue.push(next);
     }
   }
 }
 
-bfs(X, 0);
+let result = [];
+for (let i = 1; i < N + 1; i++) {
+  if (dist[i] === K) result.push(i);
+}
+
 console.log(result.length ? result.sort((a, b) => a - b).join('\n') : -1);
