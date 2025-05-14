@@ -1,36 +1,36 @@
-let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let input = require('fs')
+  .readFileSync('/dev/stdin')
+  .toString()
+  .trim()
+  .split('\n');
+
 const [N, M, K, X] = input.shift().split(' ').map(Number);
-input = input.map(el => el.split(' ').map(Number));
 const cities = Array.from({ length: N + 1 }, () => []);
-for (const [x, y] of input) {
-  cities[x].push(y);
-}
+let visited = Array(N + 1).fill(false);
 
-let distance = Array(N + 1).fill(-1); // 방문여부
-const bfs = (start) => {
-  let queue = [start];
-  distance[start] = 0;
+input.forEach(el => {
+  const [from, to] = el.trim().split(' ').map(Number);
+  cities[from].push(to);
+});
 
-  while (queue.length) {
-    let city = queue.shift();
+let result = [];
 
-    for (const nextCity of cities[city]) {
-      if (distance[nextCity] === -1) {
-        distance[nextCity] = distance[city] + 1;
-        queue.push(nextCity);
+function bfs(start, curr) {
+  let index = 0;
+  let queue = [[start, curr]];
+  visited[start] = true;
+
+  while (index < queue.length) {
+    const [node, move] = queue[index++];
+    if (move === K) result.push(node);
+    for (const next of cities[node]) {
+      if (!visited[next]) {
+        visited[next] = true;
+        queue.push([next, move + 1]);
       }
     }
   }
 }
 
-bfs(X);
-const result = [];
-for (let i = 1; i <= N; i++) {
-  if (distance[i] === K) result.push(i);
-}
-
-if (result.length === 0) {
-  console.log(-1);
-} else {
-  console.log(result.join('\n'));
-}
+bfs(X, 0);
+console.log(result.length ? result.sort((a, b) => a - b).join('\n') : -1);
