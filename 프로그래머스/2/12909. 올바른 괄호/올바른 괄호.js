@@ -1,8 +1,12 @@
-function solution(s) {
-  let count = 0;
-  for (const el of s) {
-    el === '(' ? count+=1 : count-=1;
-    if(count < 0) break;
-  }
-  return count ? false : true;
+function solution(s){
+    let queue = [];
+    
+    for(const el of s) {
+        if(!queue.length && el === ')') return false;            
+        
+        if(el === '(') queue.push(el);
+        else queue.pop();
+    }
+    
+    return queue.length > 0 ? false : true;
 }
