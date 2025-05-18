@@ -1,38 +1,29 @@
 function solution(maps) {
-  let xlen = maps[0].length;
-  let ylen = maps.length;
-  let visited = Array.from({ length: ylen }, () => Array(xlen).fill(false));
-  let targetX = xlen - 1;
-  let targetY = ylen - 1;
+  const N = maps.length;
+  const M = maps[0].length;
+  const dir = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  let visited = Array.from({ length: N }, () => Array(M).fill(0));
 
-  let dx = [0, 0, -1, 1];
-  let dy = [-1, 1, 0, 0];
-
-  const bfs = (x, y) => {
-    let queue = [[x, y, 1]]
-    visited[y][x] = true;
+  const bfs = (y, x) => {
+    let queue = [[y, x]];
+    visited[y][x] = 1;
 
     while (queue.length) {
-      let [curX, curY, count] = queue.shift();
-      if (curX === targetX && curY === targetY) {
-        return count;
-      }
-
-      for (let i = 0; i < 4; i++) {
-        let nx = curX + dx[i];
-        let ny = curY + dy[i];
-
-        if (nx >= 0 && nx < xlen && ny >= 0 && ny < ylen) {
-          if (maps[ny][nx] === 1 && !visited[ny][nx]) {
-            visited[ny][nx] = true;
-            queue.push([nx, ny, count + 1]);
-          }
+      const [cy, cx] = queue.shift();
+      for (const [dy, dx] of dir) {
+        const ny = cy + dy;
+        const nx = cx + dx;
+        if (
+          ny >= 0 && nx >= 0 && ny < N && nx < M &&
+          !visited[ny][nx] && maps[ny][nx] === 1
+        ) {
+          visited[ny][nx] = visited[cy][cx] + 1;
+          queue.push([ny, nx]);
         }
       }
     }
+  };
 
-    return -1;
-  }
-
-  return bfs(0, 0)
+  bfs(0, 0);
+  return visited[N - 1][M - 1] === 0 ? -1 : visited[N - 1][M - 1];
 }
