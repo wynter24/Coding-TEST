@@ -1,18 +1,25 @@
-const [n,...arr] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let [total, ...arr] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let words = arr.map(word => word.trim().split(''));
 
-let result = 0;
+const isGroupWord = (word) => {
+  let prevList = [];
+  prevList.push(word[0]);
 
-arr.forEach(word => {
-  let newArr = [];
-  let sum = 0;
-
-  for (let i = 0; i < word.length; i++) {
-    if(word[i-1] !== word[i]) newArr.push(word[i]);
+  for (let i = 1; i < word.length; i++) {
+    const prev = prevList[prevList.length - 1];
+    if (prev !== word[i]) {
+      if (prevList.includes(word[i])) return false;
+      else prevList.push(word[i]);
+    } else {
+      continue;
+    }
   }
-  newArr.forEach(el => {
-    if(newArr.indexOf(el) !== newArr.lastIndexOf(el)) sum++;
-  });
-  if(sum === 0) result++;
-});
+  return true;
+}
 
-console.log(result);
+let count = 0;
+words.forEach(word => {
+  if (isGroupWord(word)) count++;
+})
+
+console.log(count);
