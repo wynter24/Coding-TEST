@@ -1,42 +1,42 @@
-let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let [n, ...arr] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+const N = Number(n);
+let map = arr.map(el => el.split('').map(Number))
+let visited = Array(N).fill().map(el => Array(N).fill(false));
 
-let N = +input.shift();
-let map = input.map(v => v.split('').map(Number));
-let visited = Array.from({ length: N }, () => Array(N).fill(false));
+let count = 0;
+let houseArr = [];
+let each = 0;
 
-let dx = [-1, 1, 0, 0];
-let dy = [0, 0, -1, 1];
+const DY = [0, -1, 0, 1]
+const DX = [1, 0, -1, 0]
 
-function dfs(x, y) {
-  let count = 1;
-  visited[x][y] = true;
-
+const Dfs = (y, x) => {
+  each++;
   for (let i = 0; i < 4; i++) {
-    const nx = x + dx[i];
-    const ny = y + dy[i];
+    const ny = y + DY[i];
+    const nx = x + DX[i];
 
-    if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
-      if (map[nx][ny] === 1 && !visited[nx][ny]) {
-        count += dfs(nx, ny);
+    if (ny >= 0 && nx >= 0 && ny < N && nx < N) {
+      if (map[ny][nx] === 1 && !visited[ny][nx]) {
+        visited[ny][nx] = true;
+        Dfs(ny, nx);
       }
     }
   }
-
-  return count;
 }
 
-const complexes = [];
-
-for (let i = 0; i < N; i++) {
-  for (let j = 0; j < N; j++) {
-    if (map[i][j] === 1 && !visited[i][j]) {
-      complexes.push(dfs(i, j));
+for (let y = 0; y < N; y++) {
+  for (let x = 0; x < N; x++) {
+    if (map[y][x] === 1 && !visited[y][x]) {
+      visited[y][x] = true;
+      each = 0;
+      Dfs(y, x)
+      houseArr.push(each);
+      count++;
     }
   }
 }
 
-console.log(complexes.length);
-complexes.sort((a, b) => a - b);
-for (const count of complexes) {
-  console.log(count);
-}
+houseArr.sort((a, b) => a - b);
+console.log(count);
+console.log(houseArr.join(`\n`));
